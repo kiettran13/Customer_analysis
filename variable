@@ -1,0 +1,49 @@
+# Transaction Data:
+id -- Mã định danh độc nhất cho từng giao dịch đã được thực hiện
+date -- Ngày/Giờ thực hiện giao dịch
+client_id -- Mã định danh khách hàng giao dịch
+card_id -- Mã định danh tài khoản (thẻ) giao dịch
+amount -- Giá trị của khoản giao dịch với + là nhận tiền và - là trừ tiền
+use_chip -- Loại hình giao dịch bao gồm Swipe, Online, và Chip
+merchant_id -- Mã định danh merchant (là bên cung cấp hàng hóa, dịch vụ như nhà hàng, siêu thị,...)
+merchant_city -- Thành phố của merchant
+merchant_state -- Tiểu bang (tại Hoa Kỳ) của merchant
+zip -- Zip code của merchant
+mcc -- Mã phân loại của merchant
+errors -- Lỗi của giao dịch (nếu có)
+
+# Card Information:
+id --  Mã định danh của thẻ
+client_id -- Mã định danh khách hàng sử dụng thẻ
+card_brand -- Nhãn hàng phát hành thẻ
+card_type -- Loại thẻ được phát hành bao gồm Debit, Debit (Prepaid) và Credit
+card_number -- Số thẻ
+expires -- Ngày hết hạn thẻ
+cvv -- Mã CVV của thẻ
+has_chip -- Biến binary thể hiện thẻ có hay không có chip
+num_cards_issued -- Số lượng thẻ vật lý đã được cấp
+credit_limit -- Giới hạn tín dụng của thẻ
+acct_open_date -- Ngày (bao gồm dữ liệu tháng và năm) mở thẻ
+year_pin_last_changed -- Năm của thời điểm cuối cùng mã PIN được thay đổi
+card_on_dark_web -- Biến binary thể hiện liệu thông tin thẻ đã được lan truyền trên dark web
+
+# User Data:
+id -- Mã định danh độc nhất của khách hàng
+current_age -- Tuổi hiện tại của khách hàng
+retirement_age -- Tuổi nghỉ hưu của khách hàng
+birth_year -- Năm sinh của khách hàng
+birth_month -- Tháng sinh của khách hàng
+gender -- Giới tính của khách hàng
+address -- Địa chỉ của khách hàng
+latitude/longitude -- Thông số tọa độ địa chỉ của khách hàng
+
+# Merchant Category Codes:
+MCC 1 -- Mô tả mã định danh nhóm merchant thứ nhất
+MCC 2 -- Mô tả mã định danh nhóm merchant thứ hai
+...
+
+# Fraud Labels: 
+index -- Mã giao dịch được thực hiện
+target -- Biến binary thể hiện liệu có giao dịch đó có phải là giao dịch lừa đảo hay không
+
+
