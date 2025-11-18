@@ -1,5 +1,5 @@
-# Customer_analysis
-# Giới thiệu chủ đề phân tích
+# Phân tích hành vi khách hàng
+# Tổng quan dự án và mục đích phân tích
 Phân tích này sử dụng bộ dữ liệu tài chính kết hợp của tổ chức ngân hàng, trải dài trong suốt thập niên 2010. Với mục tiêu tìm đối tượng khách hàng và nhóm dịch vụ tiềm năng nhằm phát triển sản phầm, tái cấu trúc chính sách hạn mức và kích thích nhu cầu tín dụng. 
 # Giới thiệu bộ dữ liệu sử dụng:
 Bộ dữ liệu được sử dụng được lấy từ https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets. Đây là bộ dữ liệu tài chính lớn gồm 5 file chính:
@@ -612,6 +612,7 @@ plt.grid(axis='y', alpha=0.3)
 ![i4](https://github.com/kiettran13/Customer_analysis/blob/main/Card_age.png)
 ![i5](https://github.com/kiettran13/Customer_analysis/blob/main/Credit_limit_age_income.png)
 ![i6](https://github.com/kiettran13/Customer_analysis/blob/main/Transactions_debt_age.png)
+
 *Insight:*
 - Phân bố tỷ lệ các loại thẻ tương đối đồng đều giữa các nhóm tuổi, với tỷ lệ khách hàng cao trong tổng thể, hiện tại số lượng thẻ Credit đang được dùng cao nhất ở nhóm khách hàng 35-54 tuổi, điều này cũng đúng với tần suất chi tiêu ở nhóm tuổi này
 - So với các nhóm khách hàng khác, mức tổng nợ trung bình của khách hàng ở nhóm tuổi 35-54 ở mức trung bình, không có nhiều sự khác biệt với tổng thể, chứng tỏ nhu cầu vay của khách hàng dùng thẻ Credit không hề cao trong cả thập kỷ
