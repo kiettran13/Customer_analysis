@@ -2,12 +2,14 @@
 # Tổng quan dự án và mục đích phân tích
 Phân tích này sử dụng bộ dữ liệu tài chính kết hợp của tổ chức ngân hàng, trải dài trong suốt thập niên 2010. Với mục tiêu tìm đối tượng khách hàng và nhóm dịch vụ tiềm năng nhằm phát triển sản phầm, tái cấu trúc chính sách hạn mức và kích thích nhu cầu tín dụng. 
 # Giới thiệu bộ dữ liệu sử dụng:
-Bộ dữ liệu được sử dụng được lấy từ https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets. Đây là bộ dữ liệu tài chính lớn gồm 5 file chính:
+Bộ dữ liệu được sử dụng được lấy từ [Kaggle](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets). Đây là bộ dữ liệu tài chính lớn gồm 5 file chính:
 - Transaction Data (transactions_data.csv)
 - Card Information (cards_data.csv)
 - User Data (users_data.csv)
 - Merchant Category Codes (mcc_codes.json)
 - Fraud Labels (train_fraud_labels.json)
+
+Bộ dữ liệu được chia sẻ ở trong folder [data](https://github.com/kiettran13/Customer_analysis/tree/964c99f7904bc7fa2fb1dace7d3f2466fff7a94f/data). Riêng dữ liệu giao dịch (Transaction Data) và dữ liệu về dấu hiệu lừa đảo (Fraud Labels) có kích thước lớn nên sẽ được chia sẻ qua link.
 
 # Chi tiết dự án:
 # Tiền xử lý dữ liệu:
@@ -410,7 +412,7 @@ plt.tight_layout()
 plt.subplots_adjust(top=0.93)
 plt.show()
 ```
-![i1](https://github.com/kiettran13/Customer_analysis/blob/main/EDA.png)
+![i1](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/EDA_variables.png)
 *Insight:*
 - Phân bố nhân khẩu học của các khách hàng khá đồng đều giữa các nhóm, phân bố độ tuổi giao động trong khoảng 5% giữa các nhóm, khách hàng 45-54 chiếm tỷ lệ lớn nhất (25,3%), khách hàng nhóm tuổi dưới 25 chiếm tỷ lệ nhỏ nhất, chỉ 0,3%
 - Phân bố thu nhập hàng năm phổ biến nhất ở mức 25k-50k $ và 50k-75k $, đây là mức trung bình trong phổ dữ liệu, khách hàng của tổ chức ngân hàng chủ yếu là phân lớp bình dân đến trung lưu.
@@ -445,7 +447,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-![i2](https://github.com/kiettran13/Customer_analysis/blob/main/income_spent_card_age.png)
+![i2](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/EDA_heatmap.png)
 *Insight:*
 - Nhìn vào chi tiêu trung bình có thể thấy những khách hàng sử dụng thẻ Debit trong nhóm tuổi 35-54 cho thấy sự phóng khoáng trong chi tiêu hơn các nhóm tuổi khác trong phân tích, còn những khách hàng sử dụng thẻ Credit lại chi tiêu tương đối đồng đều giữa các nhóm tuổi, chỉ có những người dưới 25 tuổi ở nhóm này có xu hướng chi tiêu mạnh
 - Tuy nhiên, ở khía cạnh thu nhập trung bình, những khách hàng dùng thẻ Credit nhìn chung có thu nhập đều và cao hơn nhóm sử dụng thẻ Debit ở mọi nhóm tuổi. Tuy nhiên khác biệt về thu nhập này tương đối thấp.
@@ -511,7 +513,7 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 ```
-![i3](https://github.com/kiettran13/Customer_analysis/blob/main/EDA_time.png)
+![i3](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/EDA_time.png)
 *Insight:*
 - Hầu hết trong bộ dữ liệu đều có thay đổi qua các năm, tuy nhiên các thay đổi này hoàn toàn không đáng kể. Điều này cho thấy mức độ ổn định từ tệp khách hàng của tổ chức tài chính.
 
@@ -609,9 +611,9 @@ plt.legend()
 plt.grid(axis='y', alpha=0.3)
 ```
 
-![i4](https://github.com/kiettran13/Customer_analysis/blob/main/Card_age.png)
-![i5](https://github.com/kiettran13/Customer_analysis/blob/main/Credit_limit_age_income.png)
-![i6](https://github.com/kiettran13/Customer_analysis/blob/main/Transactions_debt_age.png)
+![i4](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/Card_age.png)
+![i5](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/Credit_limit_age_income.png)
+![i6](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/Transactions_debt_age.png)
 
 *Insight:*
 - Phân bố tỷ lệ các loại thẻ tương đối đồng đều giữa các nhóm tuổi, với tỷ lệ khách hàng cao trong tổng thể, hiện tại số lượng thẻ Credit đang được dùng cao nhất ở nhóm khách hàng 35-54 tuổi, điều này cũng đúng với tần suất chi tiêu ở nhóm tuổi này
@@ -795,8 +797,8 @@ low_income_rate = low_income_high_dti / len(high_dti_clients) * 100
 high_debt_high_dti = len(high_dti_clients[high_dti_clients['total_debt'] > 25000])
 high_debt_rate = high_debt_high_dti / len(high_dti_clients) * 100
 ```
-(chart chưa thêm)
-(chart chưa thêm)
+![i7](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/Credit_score_DTI.png)
+![i8](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/high_DTI_income.png)
 *Insight:*
 - Điểm tín dụng ở mọi mức điểm đều ở tỷ lệ cân bằng so với tổng thể, đánh giá ít rủi ro. Tuy nhiên tỷ lệ DTI lại ở mức cao đối với cả khách hàng sử dụng Credit và tổng thể
 - Điều này có thể lý giải bởi nhóm khách hàng có tỷ lệ DTI cao chủ yếu có mức thu nhập dưới 50k $ và có tổng nợ hơn 50k $ (tức là nợ nhiều trong khi thu nhập không nhiều hơn tương ứng hoặc nợ ít tuy nhiên thu nhập cũng hạn chế tương ứng)
@@ -923,9 +925,10 @@ for i, age_group in enumerate(age_category_spent.index):
 
 plt.tight_layout()
 plt.show()
-(chart chưa thêm xem trong code)
-(chat chưa thêm xem trong code)
 ```
+![i9](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/categories.png)
+![i10](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/top3_categories.png)
+
 *Insight:*
 - Tỷ lệ sử dụng Credit card để chi tiêu cho du lịch cao hơn so với tổng thể gần 4%
 - Có thể thấy, nhóm tuổi 35-54 có mức chi tiêu cho Du lịch và Giải trí tương đương với các nhóm tuổi khác, tuy nhiên, chi tiêu cho Ăn uống cũng như Xăng dầu & Di chuyển lại ở mức cao. Có khả năng chi tiêu, có thể áp dụng gói dịch vụ cho vay đi Du lịch, giúp kích thích tăng trưởng chi tiêu cho sản phẩm liên quan đến Du lịch & Giải trí
@@ -1089,8 +1092,9 @@ plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
 plt.show()
 ```
-(chart chưa add,xem trong code)
-(chart chưa add, xem trong code)
+![i11](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/target_age_group1.png)
+![i12](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/target_age_group2.png)
+
 *Insight:*
 - Các dẫn chứng cho thấy nhóm tuổi 35-54 đang là nhóm tuổi có hạn mức thấp nhất so với thu nhập tiềm năng của họ, tuy nhiên vậy, tỷ lệ sử dụng hạn mức đang ở mức khá tốt, cao nhất trong mọi nhóm tuổi. Nhìn vào nhu cầu tăng trưởng hạn mức, nhóm tuổi 35-54 đang là 1 trong 2 nhóm có tỷ lệ cần tăng mạnh lớn nhất ở các nhóm tuổi
 - Tỷ lệ Hạn mức tín dụng/Thu nhập trung bình: 0.32
