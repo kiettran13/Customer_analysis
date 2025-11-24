@@ -95,7 +95,7 @@ else:
     clean_transactions = transactions_data.copy()
     print("Không có giao dịch lừa đảo")
 ```
-Chuẩn hoá kiểu dữ liệu cho các biến mang giá trị ngày tháng và tiền tệ (giá trị giao dịch, thu nhập hàng năm, tổng nợ, hạn mức tín dụng) thành dạng số
+* Chuẩn hoá kiểu dữ liệu cho các biến mang giá trị ngày tháng và tiền tệ (giá trị giao dịch, thu nhập hàng năm, tổng nợ, hạn mức tín dụng) thành dạng số
 
 <details>
 <summary><b>Xem toàn bộ code </b></summary>
@@ -267,7 +267,7 @@ top_cat = top_cat.rename(columns={'category_group': 'top_category'})
 </details>
     
 <details>
-<summary><b>Click để xem toàn bộ code </b></summary>
+<summary><b>Xem toàn bộ code </b></summary>
     
 ```
 # Tìm xem khách hàng dùng loại thẻ nào nhiều nhất (credit/debit)
@@ -391,7 +391,7 @@ print(f"Số khách hàng unique - Dynamic: {client_dynamic_info['client_id'].nu
 </details>
     
 # EDA
-* Ở bước này, tôi sẽ trực quan hoá dữ liệu để khám phá tổng quan tính chất các biến và một số quan hệ cơ bản của biến dựa vào 3 bảng đã được xử lý: 'final_client_df', 'client_static_info', 'client_dynamic_info'
+* Ở bước này, tôi sẽ trực quan hoá dữ liệu để khám phá tổng quan tính chất các biến và một số quan hệ cơ bản của biến dựa vào 3 bảng đã được xử lý: 'final_client_df', 'client_static_info', 'client_dynamic_info'. Sau đó, tiếp tục phân tích sâu hơn nhóm khách hàng sử dụng thẻ Credit nhằm tìm kiếm insight phù hợp với mục đích dự án
 ## Phân bố các biến trong toàn bộ khung thời gian (2010-2019 )
 
 <details>
@@ -475,45 +475,6 @@ plt.show()
 - Phân bố loại thẻ và số giao dịch và mặt hàng chi tiêu cho thấy, có phần lớn khách hàng giao dịch thường xuyên xung mức trung bình 1000 lần giao dịch mỗi năm trong hầu hết thời gian, và loại thẻ họ chủ yếu sử dụng trong giao dịch là Debit và Credit với tỷ lệ khá cân đối, 55,5% cho Debit và 41,4% cho Credit và top 3 nhóm dịch vụ được khách hành sử dụng nhiều nhất là Thực phẩm & Ăn uống, Xăng dầu & Di chuyển, Du lịch $ Giải trí.
 - Khách hàng có sự cẩn trọng trong xu hướng sử dụng nợ và chi tiêu nợ khi hạn mức tín dụng luôn ở mức thấp, trung bình dưới 20k $ cho mỗi năm và điểm tín dụng luôn cao hơn mức trung bình (>650) và một tổng nợ trung bình 1 khách hàng đang gánh chịu chỉ tập trung dưới 10k $ mỗi năm trong thời gian một thập kỷ.
 
-## Phân tích chi tiêu và thu nhập trong mối quan hệ với nhóm tuổi và loại thẻ sử dụng các biến trong toàn bộ khung thời gian
-
-<details>
-<summary><b>Xem toàn bộ code </b></summary>
-    
-```
-plt.figure(figsize=(12, 8))
-
-#Heatmap mối quan hệ chi tiêu trung bình theo loại thẻ và nhóm tuổi
-plt.subplot(2, 2, 1)
-card_spent = final_client_df.groupby(['card_type', 'age_group'])['total_spent'].mean().unstack()
-sns.heatmap(card_spent, annot=True, fmt='.0f',cmap='YlGnBu', 
-            linewidths=0.5, linecolor='gray')
-plt.title('Tổng chi tiêu trung bình theo loại thẻ và nhóm tuổi')
-plt.xlabel('Nhóm tuổi')
-plt.ylabel('Loại thẻ')
-#plt.tight_layout()
-#plt.show()
-
-#Heatmap mối quan hệ thu nhập trung bình theo loại thẻ và nhóm tuổi
-plt.subplot(2, 2, 2)
-card_income = final_client_df.groupby(['card_type', 'age_group'])['yearly_income'].mean().unstack()
-sns.heatmap(card_income, annot=True, fmt='.0f',cmap='YlGnBu', 
-            linewidths=0.5, linecolor='gray')
-plt.title('Tổng thu nhập trung bình theo loại thẻ và nhóm tuổi')
-plt.xlabel('Nhóm tuổi')
-plt.ylabel('Loại thẻ')
-
-plt.tight_layout()
-plt.show()
-```
-</details>
-
-![i2](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/EDA_heatmap.png)
-*Nhận xét:*
-- Nhìn vào chi tiêu trung bình có thể thấy những khách hàng sử dụng thẻ Debit trong nhóm tuổi 35-54 cho thấy sự phóng khoáng trong chi tiêu hơn các nhóm tuổi khác trong phân tích, còn những khách hàng sử dụng thẻ Credit lại chi tiêu tương đối đồng đều giữa các nhóm tuổi, chỉ có những người dưới 25 tuổi ở nhóm này có xu hướng chi tiêu mạnh
-- Tuy nhiên, ở khía cạnh thu nhập trung bình, những khách hàng dùng thẻ Credit nhìn chung có thu nhập đều và cao hơn nhóm sử dụng thẻ Debit ở mọi nhóm tuổi. Tuy nhiên khác biệt về thu nhập này tương đối thấp.
-- Điều này phản ánh sự khác nhau trong thói quen chi tiêu của khách hàng sử dụng 2 loại thẻ mặc dù cả 2 nhóm này đều có mức thu nhập gần như tương đương nhau. Khách hàng dùng thẻ Debit có giới hạn chi tiêu ở tài khoản thanh toán nên chi tiêu có thể kiểm soát, còn nhóm khách hàng dùng thẻ Credit có tài khoản chi tiêu theo giới hạn hạn mức, điều này tạo điều kiện chi tiêu khó kiểm soát hơn.
-
 ## Phân tích các biến theo sự thay đổi của thời gian
 
 <details>
@@ -582,19 +543,55 @@ plt.show()
     
 ![i3](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/EDA_time.png)
 *Nhận xét:*
-- Hầu hết trong bộ dữ liệu đều có thay đổi qua các năm, tuy nhiên các thay đổi này hoàn toàn không đáng kể. Điều này cho thấy mức độ ổn định từ tệp khách hàng của tổ chức tài chính.
+- Hầu hết trong bộ dữ liệu đều có thay đổi qua các năm, tuy nhiên các thay đổi này hoàn toàn không đáng kể. Điều này cho thấy mức độ ổn định từ tệp khách hàng của tổ chức tài chính
 
-## Tổng kết phân tích EDA
-Có thể thấy tổ chức tài chính này có một tệp khách hàng ổn định với hành vi khách hàng thay đổi tương đối ít qua các năm. Đặc trưng bởi các biến về nhân khẩu học và các biến về tài chính cá nhân và hành vi tài chính. Với một tệp khách hàng chắc chắn và thói quen lâu năm, khách hàng có sự trung thành và gắn kết cao với dịch vụ của tổ chức ngân hàng, tuy nhiên mục đích chính để sử dụng thanh toán cho các mặt hàng liên quan đến Ăn uống, Xăng dầu & Phương tiện và một phần Du lịch & Giải trí. Thông qua EDA tổng quát có thể thấy, tệp khách hàng sử dụng thẻ tín dụng đang là tệp khách hàng đông đảo, chiếm đến gần 42% khách hàng. Lượng chi tiêu của khách hàng qua các năm tập trung ở mức 3k$ - 10k$ trong khi thu nhập năm của họ phân bố chủ yếu ở 25k$-75k$. 
+## Phân tích chi tiêu và thu nhập trong mối quan hệ với nhóm tuổi và loại thẻ sử dụng các biến trong toàn bộ khung thời gian
 
-# Phân tích sâu hơn hành vi nhóm khách hàng sử dụng thẻ tín dụng 
+<details>
+<summary><b>Xem toàn bộ code </b></summary>
+    
+```
+plt.figure(figsize=(12, 8))
+
+#Heatmap mối quan hệ chi tiêu trung bình theo loại thẻ và nhóm tuổi
+plt.subplot(2, 2, 1)
+card_spent = final_client_df.groupby(['card_type', 'age_group'])['total_spent'].mean().unstack()
+sns.heatmap(card_spent, annot=True, fmt='.0f',cmap='YlGnBu', 
+            linewidths=0.5, linecolor='gray')
+plt.title('Tổng chi tiêu trung bình theo loại thẻ và nhóm tuổi')
+plt.xlabel('Nhóm tuổi')
+plt.ylabel('Loại thẻ')
+#plt.tight_layout()
+#plt.show()
+
+#Heatmap mối quan hệ thu nhập trung bình theo loại thẻ và nhóm tuổi
+plt.subplot(2, 2, 2)
+card_income = final_client_df.groupby(['card_type', 'age_group'])['yearly_income'].mean().unstack()
+sns.heatmap(card_income, annot=True, fmt='.0f',cmap='YlGnBu', 
+            linewidths=0.5, linecolor='gray')
+plt.title('Tổng thu nhập trung bình theo loại thẻ và nhóm tuổi')
+plt.xlabel('Nhóm tuổi')
+plt.ylabel('Loại thẻ')
+
+plt.tight_layout()
+plt.show()
+```
+</details>
+
+![i2](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/EDA_heatmap.png)
+*Nhận xét:*
+- Ở khía cạnh thu nhập trung bình, những khách hàng dùng thẻ Credit nhìn chung có thu nhập đều và cao hơn nhóm sử dụng thẻ Debit ở mọi nhóm tuổi.
+- Tuy nhiên với thu nhập gần tương đương nhau như vậy nhưng khi nhìn vào chi tiêu trung bình có thể thấy những khách hàng sử dụng thẻ Debit cho thấy sự phóng khoáng trong chi tiêu hơn, còn những khách hàng sử dụng thẻ Credit lại chi tiêu tương đối đồng đều giữa các nhóm tuổi và thấp hơn nhóm sử dụng thẻ Debit. Đây có thể là một dấu hiệu cho thấy chi tiêu dè dặt của nhóm dùng thẻ Credit bị đè nặng bởi một yếu tố khác ngoài thu nhập 
+
+## Phân tích sâu hơn hành vi nhóm khách hàng sử dụng thẻ tín dụng 
 * Ở phần này, tôi lọc những khách hàng sử dụng thẻ tín dụng (Credit) và sử dụng heatmap và subplot phân tích so sánh các biến hạn mức, tần suất giao dịch và tổng nợ giữa nhóm sử dụng thẻ tín dụng và tổng thể khách hàng, từ đó xem xét tính chất, thói quen nhóm khách hàng sử dụng thẻ tín dụng
-## Phân bố loại thẻ theo nhóm tuổi 
+## Phân bố loại thẻ theo nhóm tuổi & phân bố chi tiêu & thu nhập theo nhóm tuổi và loại thẻ
 
 <details>
 <summary><b>Xem toàn bộ code </b></summary>
 
 ```
+final_client_df = final_client_df.drop_duplicates(subset='client_id', keep='first')
 plt.figure(figsize=(12, 6))
 card_age = pd.crosstab(final_client_df['age_group'], final_client_df['card_type'])
 card_age.plot(kind='bar', stacked=True)
@@ -606,15 +603,16 @@ plt.show()
 ```
 </details>
 
-## Phân bố chi tiêu & thu nhập theo nhóm tuổi và loại thẻ
-
 <details>
 <summary><b>Xem toàn bộ code </b></summary>
 
 ```
-# Tạo dataset cho credit card users và debit card users
+## Tạo dataset cho credit card users và debit card users
 credit_card_users = final_client_df[final_client_df['card_type'] == 'Credit']
 debit_card_users = final_client_df[final_client_df['card_type'] == 'Debit']
+debit_card_users = debit_card_users.drop_duplicates(subset='client_id', keep='first')
+credit_card_users = credit_card_users.drop_duplicates(subset='client_id', keep='first')
+
 # Tạo heatmap
 plt.figure(figsize=(20, 15))
 # 1. SO SÁNH PHÂN BỐ ĐỘ TUỔI VS THU NHẬP, XEM SỰ KHÁC NHAU CỦA NHÂN KHẨU HỌC
@@ -643,7 +641,7 @@ plt.xlabel('Thu nhập')
 plt.ylabel('Độ tuổi')
 
 
-# 2. SO SÁNH ĐIỂM TÍN DỤNG THEO ĐỘ TUỔI VÀ THU NHẬP
+# SO SÁNH ĐIỂM TÍN DỤNG THEO ĐỘ TUỔI VÀ THU NHẬP
 
 # Tổng thể
 plt.subplot(2, 3, 4)
@@ -673,7 +671,7 @@ plt.show()
 
 ```
 ```
-# 3. SO SÁNH SỐ LƯỢNG GIAO DỊCH TRUNG BÌNH VÀ NỢ TRUNG BÌNH THEO ĐỘ TUỔI
+# SO SÁNH SỐ GIAO DỊCH VÀ TỔNG NỢ TRUNG BÌNH THEO ĐỘ TUỔI
 plt.figure(figsize=(20, 15))
 
 # Số giao dịch trung bình theo độ tuổi
@@ -693,14 +691,15 @@ plt.xticks(x, age_trans_all.index)
 plt.legend()
 plt.grid(axis='y', alpha=0.3)
 
-
 # Tổng nợ trung bình theo độ tuổi
-plt.subplot(2, 3, 2)  # Vị trí mới
+plt.subplot(2, 3, 2)
 age_debt_all = final_client_df.groupby('age_group')['total_debt'].mean()
 age_debt_credit = credit_card_users.groupby('age_group')['total_debt'].mean()
+age_debt_debit = debit_card_users.groupby('age_group')['total_debt'].mean()
 
-plt.bar(x - width/2, age_debt_all.values, width, label='Tổng thể', alpha=0.7, color='lightcoral')
-plt.bar(x + width/2, age_debt_credit.values, width, label='Credit Card', alpha=0.7, color='mediumpurple')
+plt.bar(x - width, age_debt_all.values, width, label='Tổng thể', alpha=0.7, color='lightcoral')
+plt.bar(x, age_debt_credit.values, width, label='Credit Card', alpha=0.7, color='mediumpurple')
+plt.bar(x + width, age_debt_debit.values, width, label='Debit Card', alpha=0.7, color='lightblue')
 plt.title('Tổng nợ trung bình theo độ tuổi', fontsize=12, fontweight='bold')
 plt.xlabel('Độ tuổi')
 plt.ylabel('Tổng nợ trung bình ($)')
@@ -713,52 +712,61 @@ plt.grid(axis='y', alpha=0.3)
 
 ![i4](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/Card_age.png)
 ![i5](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/Credit_limit_age_income.png)
-![i6](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/Transactions_debt_age.png)
+![i6](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/transaction_debt_age.png)
 
 *Nhận xét:*
 - Tỷ lệ khách hàng sử dụng thẻ tín dụng tương đối đồng đều giữa các nhóm tuổi, điều này cũng tỷ lệ thuận với phân bố số lượng khách hàng theo nhóm tuổi
-- Phân bố trên heatmap cho thấy thu nhập chủ yếu của nhóm khách dùng thẻ Credit hàng đang ở mức trung bình từ 25k$ - 75k$ tương đương với phân phối của nhóm khách hàng sử dụng thẻ Debit và tổng thể khách hàng. Tương tự, chính sách hạn mức thể hiện ra không có nhiều sự khác biệt giữa hạn mức tín dụng hầu hết nhóm khách hàng sử dụng thẻ Credit với Debit, cả hai nhóm đều có mức hạn mức từ thấp đến trung bình đối với mức thu nhập thấp và trung, trong khi đó, chỉ một số ít nhóm khách hàng có thu nhập cao sử dụng Credit có mức ưu đãi hạn mức cao hơn nhóm Debit. Điều này có thể lý giải bởi thói quen chi tiêu khác biệt ở 2 nhóm khách hàng và phân bố tuổi và thu nhập của khách hàng
-- Trong khi đó, tần suất giao dịch trong các năm của khách hàng giữa 2 nhóm không có nhiều sự khác biệt. Trong khi đó tổng nợ trung bình của nhóm khách hàng 2 loại thẻ cũng tương đối giống nhau, khác biệt ở nhóm tuổi dưới 25, mặc dù chiếm tỷ lệ nhỏ trong tổng số khách hành nhưng tổng nợ trung bình người dùng thẻ Credit lớn hơn gần 3 lần so với tổng nợ của nhóm người dùng thẻ Debit
+- Phân bố trên heatmap cho thấy thu nhập chủ yếu của nhóm khách dùng thẻ Credit hàng đang ở mức trung bình từ 25k$ - 75k$ tương đương với phân phối của nhóm khách hàng sử dụng thẻ Debit và tổng thể khách hàng. Tương tự, chính sách hạn mức thể hiện ra cả hai nhóm đều có mức hạn mức từ thấp đến trung bình đối với mức thu nhập thấp và trung, trong khi đó, nhóm dùng thẻ Credit có hạn mức trung bình hầu hết nhóm tuổi đều thấp hơn nhóm sử dụng thẻ Debit, điều này có thể ám chỉ mức tín nhiệm tín dụng hiện tại của tổ chức tài chính này với nhóm dùng Credit đang thấp hơn nhóm sử dụng Debit
+- Trong khi đó, tần suất giao dịch trong các năm của khách hàng giữa 2 nhóm không có nhiều sự khác biệt. Trong khi đó tổng nợ trung bình của nhóm khách hàng 2 loại thẻ cũng tương đối giống nhau. Từ đây có thể thấy nhóm khách hàng sử dụng thẻ 
 
-# So sánh và đánh giá sự khác biệt về rủi ro giữa nhóm khách hàng sử dụng Credit với tổng các nhóm khách hàng bằng các biến điểm tín dụng và DTI
+## Tổng kết phân tích EDA
+- Có thể thấy tổ chức tài chính này có một tệp khách hàng ổn định với hành vi khách hàng thay đổi tương đối ít qua các năm. Đặc trưng bởi các biến về nhân khẩu học và các biến về tài chính cá nhân và hành vi tài chính. Với một tệp khách hàng chắc chắn và thói quen lâu năm, khách hàng có sự trung thành và gắn kết cao với dịch vụ của tổ chức ngân hàng, tuy nhiên mục đích chính để sử dụng thanh toán cho các mặt hàng thiết yếu như Ăn uống, Xăng dầu & Phương tiện và một phần Du lịch & Giải trí. Thông qua EDA tổng quát có thể thấy khách hàng chủ yếu thuộc nhóm bình dân đến trung lưu, lượng chi tiêu của khách hàng qua các năm tập trung ở mức 3k$ - 10k$ trong khi thu nhập năm của họ phân bố chủ yếu ở 25k$-75k$.
+- Trong đó, tệp khách hàng sử dụng thẻ tín dụng đang là tệp khách hàng đông đảo, chiếm đến gần 42% khách hàng, đây là nhóm khách hàng đáng lẽ ra sẽ đem lại doanh thu tín dụng cao cho tổ chức thông qua chi tiêu tín dụng, nhưng dữ liệu cho thấy nhóm khách hàng này có chi tiêu thấp hơn nhóm Credit mặc dù hai nhóm có thu nhập và nợ trung bình tương đương nhau.
+### Đặt giả thuyết
+Dựa trên hành vi chi tiêu thấp và thu nhập cao hơn trung bình, kết hợp với việc nhóm Credit có tổng nợ tương đương Debit nhưng chi tiêu thấp hơn đáng kể, một giả thuyết hợp lý là họ có xu hướng duy trì nợ tín dụng, hạn chế vay thêm và do đó hạn chế chi tiêu qua thẻ tín dụng để tránh tăng dư nợ, ảnh hưởng đến điểm tín dụng vốn đang thấp hơn trung bình của họ
+
+# PHÂN TÍCH GIẢ THUYẾT:
+
+## Phân tích tình hình điểm tín dụng và so sánh phân bổ tỷ lệ DTI theo từng mức độ giữa 2 nhóm khách hàng sử dụng Debit và Credit
+
+- Ở phần này của phân tích, tôi sẽ chia điểm tín dụng của khách hàng vào các nhóm điểm tín dụng theo FICO - thang chấm điểm tín dụng phổ biến ở Mỹ và chia chỉ số DTI vào các nhóm theo CFPB & Fannie Mae - hai cơ quan được chính phủ bảo lãnh và kiểm soát các khoản vay thế chấp ở Mỹ. Từ đó xác định chính xác tỷ lệ khách hàng theo nhóm điểm tín dụng và DTI.
 
 <details>
 <summary><b>Xem toàn bộ code </b></summary>
     
 ```
-# Tạo nhóm điểm tín dụng
 def categorize_credit_score(score):
-    if score >= 750:
-        return 'Cao (750+)'
-    elif score >= 650:
-        return 'Trung bình (650-749)'
+    if score >= 740:
+        return 'Cao (740+)'
+    elif score >= 670:
+        return 'Trung bình (670-740)'
     else:
-        return 'Thấp (<650)'
+        return 'Thấp (<670)'
 
-# Áp dụng cho cả hai dataset
-final_client_df['credit_score_group'] = final_client_df['credit_score'].apply(categorize_credit_score)
+# Áp dụng phân loại cho dataset
+debit_card_users['credit_score_group'] = debit_card_users['credit_score'].apply(categorize_credit_score)
 credit_card_users['credit_score_group'] = credit_card_users['credit_score'].apply(categorize_credit_score)
-# === TÍNH TOÁN TỶ LỆ NỢ/THU NHẬP (DTI) ===
 
-final_client_df['dti_ratio'] = final_client_df['total_debt'] / final_client_df['yearly_income']
+# Công thức tính DTI
+debit_card_users['dti_ratio'] = debit_card_users['total_debt'] / debit_card_users['yearly_income']
 credit_card_users['dti_ratio'] = credit_card_users['total_debt'] / credit_card_users['yearly_income']
+
+# Đặt bảng màu
+credit_colors = ['#FF6B6B', '#4ECDC4', '#45B7D1']
+credit_labels = ['Thấp (<670)', 'Trung bình (670-740)', 'Cao (740+)']
+
+dti_colors = ['#2E8B57', '#3CB371', '#FFD700', '#FF6347', '#D3D3D3']
+dti_labels = ['Rất thấp (0-0.2)', 'Thấp (0.2-0.3)', 'Trung bình (0.3-0.36)', 'Cao (>0.36)', 'Không xác định']
 
 # SO SÁNH PHÂN BỐ ĐIỂM TÍN DỤNG VÀ DTI
 plt.figure(figsize=(20, 18))
 
-# Định nghĩa màu sắc
-credit_colors = ['#FF6B6B', '#4ECDC4', '#45B7D1']
-credit_labels = ['Thấp (<650)', 'Trung bình (650-749)', 'Cao (750+)']
-
-dti_colors = ['#2E8B57', '#3CB371', '#FFD700', '#FF6347', '#D3D3D3']
-dti_labels = ['Rất thấp (0-0.2)', 'Thấp (0.2-0.36)', 'Trung bình (0.36-0.5)', 'Cao (>0.5)', 'Không xác định']
-
-# Phân bố điểm tín dụng theo độ tuổi - Tổng thể
+# Phân bố điểm tín dụng theo độ tuổi - Debit Card
 plt.subplot(2, 3, 1)
-credit_age_all = pd.crosstab(final_client_df['age_group'], final_client_df['credit_score_group'])
-credit_age_all_percent = credit_age_all.div(credit_age_all.sum(axis=1), axis=0) * 100
-credit_age_all_percent.plot(kind='bar', stacked=True, ax=plt.gca(), color=credit_colors, legend=False)
-plt.title('PHÂN BỐ ĐIỂM TÍN DỤNG THEO ĐỘ TUỔI\n(Tổng thể - %)', fontsize=12, fontweight='bold')
+credit_age_debit = pd.crosstab(debit_card_users['age_group'], debit_card_users['credit_score_group'])
+credit_age_debit_percent = credit_age_debit.div(credit_age_debit.sum(axis=1), axis=0) * 100
+credit_age_debit_percent.plot(kind='bar', stacked=True, ax=plt.gca(), color=credit_colors, legend=False)
+plt.title('Phân bố điểm tín dụng theo độ tuổi\n(nhóm dùng Debit - %)', fontsize=12, fontweight='bold')
 plt.xlabel('Độ tuổi')
 plt.ylabel('Tỷ lệ phần trăm (%)')
 plt.xticks(rotation=45)
@@ -769,7 +777,7 @@ plt.subplot(2, 3, 2)
 credit_age_credit = pd.crosstab(credit_card_users['age_group'], credit_card_users['credit_score_group'])
 credit_age_credit_percent = credit_age_credit.div(credit_age_credit.sum(axis=1), axis=0) * 100
 credit_age_credit_percent.plot(kind='bar', stacked=True, ax=plt.gca(), color=credit_colors, legend=False)
-plt.title('Phân bố điểm tín dụng theo độ tuổi\n(Khách hàng dùng thẻ tín dụng - %)', fontsize=12, fontweight='bold')
+plt.title('Phân bố điểm tín dụng theo độ tuổi\n(nhóm dùng Credit - %)', fontsize=12, fontweight='bold')
 plt.xlabel('Độ tuổi')
 plt.ylabel('Tỷ lệ phần trăm (%)')
 plt.xticks(rotation=45)
@@ -779,13 +787,12 @@ plt.figlegend(handles=[plt.Rectangle((0,0),1,1, fc=color) for color in credit_co
             labels=credit_labels,
             title='Nhóm điểm tín dụng',
             loc='upper center',
-            bbox_to_anchor=(0.5, 0.95),
+            bbox_to_anchor=(0.5, 0.05),
             ncol=3,
             fontsize=10,
             frameon=True,
             fancybox=True,
             shadow=True)
-
 
 # Phân nhóm DTI
 def categorize_dti(dti):
@@ -793,43 +800,62 @@ def categorize_dti(dti):
         return 'Rất thấp (0-0.2)'
     elif dti <= 0.3:
         return 'Thấp (0.2-0.3)'
-    elif dti <= 0.4:
-        return 'Trung bình (0.3-0.4)'
+    elif dti <= 0.36:
+        return 'Trung bình (0.3-0.36)'
     else:
-        return 'Cao (>0.4)'
+        return 'Cao (>0.36)'
 
-final_client_df['dti_group'] = final_client_df['dti_ratio'].apply(categorize_dti)
+debit_card_users['dti_group'] = debit_card_users['dti_ratio'].apply(categorize_dti)
 credit_card_users['dti_group'] = credit_card_users['dti_ratio'].apply(categorize_dti)
 
-dti_all = final_client_df['dti_group'].value_counts(normalize=True) * 100
+dti_debit = debit_card_users['dti_group'].value_counts(normalize=True) * 100
 dti_credit = credit_card_users['dti_group'].value_counts(normalize=True) * 100
 
-# Pie chart cho tổng thể
-plt.subplot(2, 3, 4)
-plt.pie(dti_all.values, labels=dti_all.index, autopct='%1.1f%%', startangle=90, 
-        colors=dti_colors[:len(dti_all)])
-plt.title('Phân bố DTI cho tổng thể', fontsize=12, fontweight='bold')
+# Chỉnh thứ tự bảng màu
+dti_order = ['Rất thấp (0-0.2)', 'Thấp (0.2-0.3)', 'Trung bình (0.3-0.36)', 'Cao (>0.36)']
+dti_debit = dti_debit.reindex(dti_order)
+dti_credit = dti_credit.reindex(dti_order)
 
-# Pie chart cho credit card
+# Pie chart cho Debit card 
+plt.subplot(2, 3, 4)
+plt.pie(dti_debit.values, labels=dti_debit.index, autopct='%1.1f%%', startangle=90,
+        colors=dti_colors[:len(dti_debit)])
+plt.title('Phân bố DTI cho khách hàng dùng thẻ Debit', fontsize=12, fontweight='bold')
+
+# Pie chart cho credit card 
 plt.subplot(2, 3, 5)
 plt.pie(dti_credit.values, labels=dti_credit.index, autopct='%1.1f%%', startangle=90,
         colors=dti_colors[:len(dti_credit)])
-plt.title('Phân bố DTI cho khách hàng dùng thẻ tín dụng', fontsize=12, fontweight='bold')
+plt.title('Phân bố DTI cho khách hàng dùng thẻ Credit', fontsize=12, fontweight='bold')
 
-plt.tight_layout(rect=[0, 0, 1, 0.92])  
+# Legend for DTI
+plt.figlegend(handles=[plt.Rectangle((0,0),1,1, fc=color) for color in dti_colors[:4]],
+            labels=dti_labels[:4],
+            title='Nhóm DTI',
+            loc='lower center',
+            bbox_to_anchor=(0.5, 0.05),
+            ncol=4,
+            fontsize=10,
+            frameon=True,
+            fancybox=True,
+            shadow=True)
+
+plt.tight_layout(rect=[0, 0.05, 1, 0.95])  
 plt.show()
 ```
 </details>
 
-![i7](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/Credit_score_DTI.png)
+![i7](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/credit_score_dti.png)
 ![i6](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/stat_total_credit_score.png)
 
 *Nhận xét*
-- Nhóm khách hàng sử dụng thẻ Credit có tỷ lệ điểm tín dụng thấp trung bình ở các nhóm tuổi cao hơn so với tổng thể. Trong khi đó tỷ lệ tổng nợ/thu nhập (DTI) của nhóm khách hàng sử dụng thẻ tín dụng có đến hơn 75% ở mức cao (>0.4 được coi là cao theo hệ quy chiếu của các ngân hàng châu Âu) trong khi đó có hơn 17% khách hàng ở nhóm này có DTI rất thấp. Đây là dấu hiệu rủi ro rõ ràng cần được xem xét khi cải thiện sản phẩm tín dụng và xem xét chính sách cho vay ở nhóm khách hàng này. Đây cũng là nguyên nhân dẫn đến hành vi tiêu dùng có phần cẩn trọng của nhóm khách hàng sử dụng Credit đã được đề cập ở phần EDA: nhóm khách hàng này đang nợ nhiều so với thu nhập của họ, dẫn đến sự cẩn trong trong hành vi vay tín dụng khi tiêu dùng, giải thích cho chi tiêu trung bình hàng năm ổn định.
+- Khi phân tích sâu vào điểm tín dụng và tỷ lệ nợ trên thu nhập (DTI) của hai nhóm khách hàng sử dụng Debit và Credit Card, các quan sát thu được củng cố rõ ràng cho giả thuyết đã đưa ra trong phần EDA. Nhóm khách hàng sử dụng Credit Card cho thấy điểm tín dụng trung bình thấp hơn ở các nhóm tuổi lớn, đồng thời có tới hơn 79.1% số khách hàng nằm trong mức DTI cao, trong khi chỉ 18,1% thuộc nhóm DTI rất thấp. Điều này phản ánh rằng phần lớn người dùng Credit Card đang duy trì mức dư nợ tín dụng lớn so với thu nhập – Đây là dấu hiệu rủi ro rõ ràng cần được xem xét khi cải thiện sản phẩm tín dụng và xem xét chính sách cho vay ở nhóm khách hàng này.
+- Trong bối cảnh đó, việc họ hạn chế chi tiêu qua thẻ tín dụng trở nên hợp lý: khi điểm tín dụng không quá cao và tỷ lệ nợ đã vượt ngưỡng an toàn, khách hàng có xu hướng kiểm soát chi tiêu để tránh gia tăng dư nợ, bảo vệ điểm tín dụng và duy trì khả năng vay. Điều này phù hợp với thực tế quan sát được rằng mức chi tiêu trung bình hàng năm của nhóm Credit tương đối ổn định và thấp hơn nhóm sử dụng thẻ Debit, dù hai nhóm có thu nhập và tổng nợ trung bình tương đương.
+- Mặt khác, nhóm khách hàng sử dụng Debit lại có tỷ lệ điểm tín dụng thấp thấp hơn so với nhóm Credit, trong khi tỷ lệ DTI cao của họ lại vượt cả nhóm Credit. Điều này cho thấy khách hàng Debit ít bị ảnh hưởng bởi áp lực duy trì điểm tín dụng hoặc hạn mức vay, từ đó có xu hướng chi tiêu thoải mái hơn. Đây là bằng chứng mạnh mẽ củng cố cho giả thuyết ở phần EDA: việc chi tiêu thấp của nhóm sử dụng Credit chủ yếu xuất phát từ áp lực dư nợ tín dụng và động cơ bảo vệ điểm tín dụng, chứ không đến từ năng lực tài chính hay khả năng chi trả.
 
-* Tiếp theo, tôi sẽ phân tích tình hình tài chính, thói quan chi tiêu nhóm khách hàng có DTI cao nhằm định hướng các sản phẩm cơ cấu nợ, ưu đãi lãi vay cho nhóm khách hàng. Trong khi đó, phân tích nhóm khách hàng có DTI thấp để xem xét phát triển sản phẩm kích thích nhu cầu tín dụng.
+# Phân tích rõ hơn cấu trúc nhóm khách hàng đang dùng thẻ Credit theo 2 nhóm DTI thấp và DTI cao nhằm tìm hướng phát triển sản phẩm riêng biệt:
 
-# Phân tích rõ hơn cấu trúc nhóm khách hàng đang dùng thẻ Credit theo 2 nhóm DTI thấp và DTI cao:
+* Ở phần này, tôi sẽ phân tích tình hình tài chính, thói quan chi tiêu của 2 nhóm khách hàng. Từ đó xây dựng định hướng phát triển sản phẩm phù hợp đối với nhu cầu từng nhóm khách hàng
 
 <details>
 <summary><b>Xem toàn bộ code </b></summary>
@@ -864,12 +890,7 @@ plt.ylabel('Độ tuổi')
 ```
 </details>
 
-![i8](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/age_income_dti%20ct.png)
-*Nhận xét:*
-- Có thể thấy nhóm khách hàng có tỷ lệ DTI cao chủ yếu có mức thu nhập dưới 50k$ và một số ít tập trung ở 30k$-75k$, tuy nhiên nhóm này có tổng nợ đa dạng từ 30k$ tới hơn 100k$ trải dài từ độ tuổi 25-64, hầu hết người cao tuổi (65+) ở nhóm này có nợ tương đối thấp 10k$-30k$.
-- Đối với nhóm DTI rất thấp, chủ yếu những khách hàng nằm ở nhóm này là người cao tuổi có thu nhập thấp, nợ của họ cũng rất ít, hầu hết chỉ dưới 5k$.
-
-## Phân tích dịch vụ chi tiêu của 2 nhóm khách hàng
+![i8](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/age_income_dti_ct.png)
 
 <details>
 <summary><b>Xem toàn bộ code</b></summary>
@@ -1013,17 +1034,30 @@ plt.show()
 </details>
 
 ![i9](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/categories.png)
-![i10](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/credit_score_dti%20ct.png)
+![i10](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/top3_category_dti.png)
 
 *Nhận xét:*
-- Tỷ lệ dịch vụ được chi tiêu của nhóm sử dụng thẻ Credit khá tương đồng với tổng thể, không có nhiều khác biệt trong hành vi chi tiêu của nhóm này
-- Có thể thấy trong nhóm khách hàng có chỉ số DTI cao, phân bố tổng chi tiêu của top 3 dịch vụ đều khá đều nhau ở mọi nhóm tuổi và tỷ trọng dịch vụ cũng tương đối giống tổng thể. Trong khi đó, nhóm DTI rất thấp với phần lớn khách hàng là người cao tuổi cũng cho thấy một tỷ trọng dịch vụ tương đương. Tuy nhiên nhóm Du lịch & Giải trí của nhóm này khá khiêm tốn so với 2 dịch vụ còn lại. Đây là một trong những nhóm dịch vụ có thể kích cầu của nhóm khách hàng cao tuổi này.
+- Có thể thấy nhóm khách hàng có tỷ lệ DTI cao chủ yếu có mức thu nhập dưới 50k$ và một số ít tập trung ở 30k$-75k$. Xét ở khía cạnh tổng nợ, nhóm này khách hàng ở độ tuổi 35-54 đang có tổng nợ ở mức trung bình - cao, còn lại nhóm tuổi 25-34, 55+ có nợ ở mức trung bình - thấp. Đối với nhóm DTI rất thấp, chủ yếu những khách hàng nằm ở nhóm này là người cao tuổi có thu nhập thấp, nợ của họ cũng rất ít, hầu hết chỉ dưới 5k$.
+- Tỷ lệ dịch vụ được chi tiêu của nhóm sử dụng thẻ Credit khá tương đồng với tổng thể, không có nhiều khác biệt trong hành vi chi tiêu của nhóm này. Có thể thấy trong nhóm khách hàng có chỉ số DTI cao, chi tiêu cao nhất được thể hiện ở nhóm 35-54 tuổi và thấp nhất ở nhóm 25-34 và 65+. Trong khi đó, nhóm DTI rất thấp với phần lớn khách hàng là người cao tuổi thu nhập thấp, nợ ít chủ yếu tiêu dùng cho Ăn uống.
 
-# Phân tích điểm tín dụng của 2 nhóm khách hàng
+*Tôi sẽ chia khách hàng nhóm DTI cao và thấp theo tổng chi tiêu và phân bố tổng nợ trung bình thành 3 nhóm như sau, với các hướng phát triển khác nhau:*
+
+* Nhóm chi tiêu cao, nợ cao (35-54): Đây là nhóm dù có nợ cao, nhưng sức mua tốt, cần thúc đấy tiêu dùng những sản phẩm tín dụng an toàn: chính sách hoàn tiền khi chi tiêu các mặt hàng phổ biến (Ăn uống, Xăng dầu & Phương tiện), các gói dịch vụ Du lịch trả góp 0%,...
+* Nhóm chi tiêu thấp, nợ cao (25-34 và 55-64): Đây là nhóm khách hàng đang ngại chi tiêu, sợ nợ, cần thúc đẩy những dịch vụ tái cấu trúc nợ, các khoản vay ưu đãi kéo dài kỳ hạn, lãi suất thấp, các khoản vay tái xây dựng tín dụng (credit builder loans)
+* Nhóm chi tiêu thấp, nợ thấp (65+): Đây là nhóm đối tượng khách hàng có tiểm năng tăng trưởng tín dụng cao và an toàn nhất, có thể đề xuất nhóm sản phẩm ưu đãi vay tiêu dùng đặc biệt là cho vay tiêu dùng đối với các dịch vụ thuộc nhóm Du lịch & Giải trí (vay du lịch, ưu đãi bảo hiểm du lịch, thẻ đồng thương hiệu khách sạn/hàng không,...)
+
+
+# Phân tích tỷ lệ sử dụng hạn mức và điểm tín dụng của các nhóm khách hàng để đánh giá rủi ro: 
+
+- Ở phần này, tôi phân tích biến điểm tín dụng và tỷ lệ sử dụng hạn mức tín dụng để xem xét rủi ro, xây dựng điều kiện sử dụng thêm cho các hướng sản phẩm đối với từng nhóm khách hàng
+
+<details>
+<summary><b>Xem toàn bộ code</b></summary>
+  
 ```
 plt.figure(figsize=(16, 8))  
 
-# Chart 1: Số lượng khách hàng dùng thẻ credit có DTI cao
+# Phân bố điểm tín dụng khách hàng dùng thẻ credit có DTI cao
 plt.subplot(1, 2, 1)
 high_dti_crosstab = pd.crosstab(high_dti_credit['age_group'], high_dti_credit['credit_score_group'])
 high_dti_crosstab = high_dti_crosstab.reindex(columns=credit_labels)
@@ -1035,7 +1069,7 @@ plt.ylabel('Số lượng khách hàng')
 plt.xticks(rotation=45)
 plt.grid(axis='y', alpha=0.3)
 
-# Chart 2: Số lượng khách hàng dùng thẻ credit có DTI rất thấp
+# Phân bố điểm tín dụng khách hàng dùng thẻ credit có DTI rất thấp
 plt.subplot(1, 2, 2)
 very_low_dti_crosstab = pd.crosstab(very_low_dti_credit['age_group'], very_low_dti_credit['credit_score_group'])
 very_low_dti_crosstab = very_low_dti_crosstab.reindex(columns=credit_labels)
@@ -1059,72 +1093,35 @@ plt.figlegend(handles=[plt.Rectangle((0,0),1,1, fc=color) for color in credit_co
 
 plt.tight_layout(rect=[0, 0, 1, 0.88])  
 plt.show()
-
-
-# ==================== THỐNG KÊ TỶ LỆ ĐIỂM TÍN DỤNG THEO NHÓM DTI ====================
-print("\n" + "="*70)
-print("TỶ LỆ ĐIỂM TÍN DỤNG THEO NHÓM DTI")
-print("="*70)
-
-# Tính tỷ lệ phần trăm cho từng nhóm DTI
-high_dti_percent = (high_dti_crosstab.sum() / len(high_dti_credit) * 100).round(1)
-very_low_dti_percent = (very_low_dti_crosstab.sum() / len(very_low_dti_credit) * 100).round(1)
-
-print(f"\n{'Nhóm điểm tín dụng':<20} {'DTI Cao (>0.4)':<15} {'DTI Rất thấp (0-0.2)':<20} {'Chênh lệch':<10}")
-print("-" * 70)
-
-for label in credit_labels:
-    high_pct = high_dti_percent[label]
-    low_pct = very_low_dti_percent[label]
-    diff = low_pct - high_pct  # DTI Rất thấp so với DTI Cao
-    diff_sign = "+" if diff > 0 else ""
-    
-    print(f"{label:<20} {high_pct:>5.1f}%{'':<8} {low_pct:>5.1f}%{'':<13} {diff_sign}{diff:>5.1f}%")
 ```
-# Phân tích tỷ lệ sử dụng hạn mức của 2 nhóm khách hàng để đánh giá rủi ro
+</details>
+
+![i11](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/credit_score_dti_ct.png)
+![i11](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/stat_credit_score.png)
+
 <details>
 <summary><b>Xem toàn bộ code</b></summary>
     
 ```
-# 4. SO SÁNH TỶ LỆ SỬ DỤNG HẠN MỨC GIỮA NHÓM DTI CAO VÀ DTI RẤT THẤP ở nhóm dùng credit
-plt.figure(figsize=(15, 10))
+plt.figure(figsize=(18, 10))
 
-# Loại bỏ khách hàng không có credit limit ở cả 2 nhóm
+# Loại bỏ khách hàng không có credit limit
 high_dti_credit = high_dti_credit[high_dti_credit['credit_limit'] > 0].copy()
 very_low_dti_credit = very_low_dti_credit[very_low_dti_credit['credit_limit'] > 0].copy()
 credit_card_users = credit_card_users[credit_card_users['credit_limit'] > 0].copy()
 
-# Tính toán tỷ lệ sử dụng hạn mức cho credit card users
-high_dti_credit['credit_utilization_ratio'] = high_dti_credit['total_spent'] / high_dti_credit['credit_limit']
-very_low_dti_credit['credit_utilization_ratio'] = very_low_dti_credit['total_spent'] / very_low_dti_credit['credit_limit']
-credit_card_users['credit_utilization_ratio'] = credit_card_users['total_spent'] / credit_card_users['credit_limit']
-
-# Biểu đồ 1: Box plot so sánh phân bố
-plt.subplot(1, 2, 1)
 utilization_data = [
     high_dti_credit['credit_utilization_ratio'].values,  
     very_low_dti_credit['credit_utilization_ratio'].values  
 ]
-labels = ['DTI Cao (>0.4)', 'DTI Rất thấp (0-0.2)']
-box_plot = plt.boxplot(utilization_data, labels=labels, patch_artist=True)
+labels = ['DTI Cao (>0.36)', 'DTI Rất thấp (0-0.2)']
 
-# Tô màu cho box plot
-colors = ['#FF6B6B', '#4ECDC4']
-for patch, color in zip(box_plot['boxes'], colors):
-    patch.set_facecolor(color)
-    patch.set_alpha(0.7)
+# Tính toán tỷ lệ sử dụng hạn mức
+high_dti_credit['credit_utilization_ratio'] = high_dti_credit['total_spent'] / high_dti_credit['credit_limit']
+very_low_dti_credit['credit_utilization_ratio'] = very_low_dti_credit['total_spent'] / very_low_dti_credit['credit_limit']
+credit_card_users['credit_utilization_ratio'] = credit_card_users['total_spent'] / credit_card_users['credit_limit']
 
-plt.title('PHÂN BỐ TỶ LỆ SỬ DỤNG HẠN MỨC\nTHEO NHÓM DTI (CREDIT CARD USERS)', fontsize=12, fontweight='bold')
-plt.ylabel('Tỷ lệ sử dụng hạn mức')
-plt.grid(axis='y', alpha=0.3)
-
-plt.axhline(y=1.0, color='red', linestyle='--', alpha=0.7, linewidth=2, label='Ngưỡng vượt hạn mức (100%)')
-plt.legend()
-
-
-# Biểu đồ 4: Phân bố tỷ lệ sử dụng hạn mức theo nhóm
-plt.subplot(1, 2, 2)
-# Phân nhóm tỷ lệ sử dụng hạn mức
+# Phân nhóm sử dụng hạn mức
 def categorize_utilization(ratio):
     if ratio <= 0.3:
         return 'Thấp (0-30%)'
@@ -1136,45 +1133,65 @@ def categorize_utilization(ratio):
         return 'Vượt hạn mức (>100%)'
 
 credit_card_users['utilization_group'] = credit_card_users['credit_utilization_ratio'].apply(categorize_utilization)
+high_dti_credit['utilization_group'] = high_dti_credit['credit_utilization_ratio'].apply(categorize_utilization)
+very_low_dti_credit['utilization_group'] = very_low_dti_credit['credit_utilization_ratio'].apply(categorize_utilization)
 
-# Tạo cross tab cho 2 nhóm DTI
-utilization_cross_tab = pd.crosstab(
-    credit_card_users[credit_card_users['dti_group'].isin(['Cao (>0.4)', 'Rất thấp (0-0.2)'])]['dti_group'],
-    credit_card_users[credit_card_users['dti_group'].isin(['Cao (>0.4)', 'Rất thấp (0-0.2)'])]['utilization_group'],
+age_util_low_dti = pd.crosstab(
+    very_low_dti_credit['age_group'],
+    very_low_dti_credit['utilization_group'],
     normalize='index'
 ) * 100
 
-utilization_cross_tab.plot(kind='bar', ax=plt.gca(), color=['#2E8B57', '#FFD700', '#FF6347', '#8B0000'])
-plt.title('PHÂN BỐ MỨC ĐỘ SỬ DỤNG HẠN MỨC\nTHEO NHÓM DTI (CREDIT CARD USERS)', fontsize=12, fontweight='bold')
-plt.xlabel('Nhóm DTI')
-plt.ylabel('Tỷ lệ (%)')
-plt.legend(title='Mức sử dụng hạn mức', bbox_to_anchor=(1.05, 1), loc='upper left')
+age_util_high_dti = pd.crosstab(
+    high_dti_credit['age_group'],
+    high_dti_credit['utilization_group'],
+    normalize='index'
+) * 100
+
+# Vẽ boxplot 
+plt.subplot(1, 3, 1)
+box_plot = plt.boxplot(
+    utilization_data,
+    labels=labels,
+    showfliers=False,     
+    patch_artist=True,
+    whis=[5, 96]      
+)
+
+colors = ['#FF6B6B', '#4ECDC4']
+for patch, color in zip(box_plot['boxes'], colors):
+    patch.set_facecolor(color)
+    patch.set_alpha(0.7)
+
+plt.title("Phân bố tỷ lệ sử dụng hạn mức\n(Khách hàng dùng thẻ Credit)", 
+          fontsize=13, fontweight='bold')
+plt.ylabel("Tỷ lệ sử dụng hạn mức")
+plt.grid(axis='y', alpha=0.3)
+
+colors = ['#2E8B57', '#FFD700', '#FF6347', '#8B0000']
+
+# Phân bố hạn mức nhóm DTI rất thấp
+plt.subplot(1, 3, 2)
+age_util_low_dti.plot(kind='bar', stacked=True, color=colors, ax=plt.gca())
+plt.title("Phân bố mức sử dụng hạn mức theo nhóm tuổi\nNhóm DTI rất thấp (0–0.2)", fontsize=13, fontweight='bold')
+plt.xlabel("Nhóm tuổi")
+plt.ylabel("Tỷ lệ (%)")
 plt.xticks(rotation=45)
 plt.grid(axis='y', alpha=0.3)
+plt.legend(title="Mức sử dụng hạn mức", bbox_to_anchor=(1.05, 1), loc='upper left')
+
+# Phân bố hạn mức nhóm DTI cao
+plt.subplot(1, 3, 3)
+age_util_high_dti.plot(kind='bar', stacked=True, color=colors, ax=plt.gca())
+plt.title("Phân bố mức sử dụng hạn mức theo nhóm tuổi\nNhóm DTI cao (>0.36)", fontsize=13, fontweight='bold')
+plt.xlabel("Nhóm tuổi")
+plt.ylabel("Tỷ lệ (%)")
+plt.xticks(rotation=45)
+plt.grid(axis='y', alpha=0.3)
+plt.legend(title="Mức sử dụng hạn mức", bbox_to_anchor=(1.05, 1), loc='upper left')
 
 plt.tight_layout()
 plt.show()
-
-
-# In thống kê chi tiết
-print("=== THỐNG KÊ CHI TIẾT TỶ LỆ SỬ DỤNG HẠN MỨC ===")
-print(f"Nhóm DTI Cao (>0.4):")
-print(f"  - Số khách hàng: {len(high_dti_credit)}")
-print(f"  - Trung bình: {high_dti_credit['credit_utilization_ratio'].mean():.3f} ({high_dti_credit['credit_utilization_ratio'].mean()*100:.1f}%)")
-print(f"  - Trung vị: {high_dti_credit['credit_utilization_ratio'].median():.3f} ({high_dti_credit['credit_utilization_ratio'].median()*100:.1f}%)")
-print(f"  - Min: {high_dti_credit['credit_utilization_ratio'].min():.3f}")
-print(f"  - Max: {high_dti_credit['credit_utilization_ratio'].max():.3f}")
-print(f"  - Q1: {high_dti_credit['credit_utilization_ratio'].quantile(0.25):.3f}")
-print(f"  - Q3: {high_dti_credit['credit_utilization_ratio'].quantile(0.75):.3f}")
-
-print(f"\nNhóm DTI Rất thấp (0-0.2):")
-print(f"  - Số khách hàng: {len(very_low_dti_credit)}")
-print(f"  - Trung bình: {very_low_dti_credit['credit_utilization_ratio'].mean():.3f} ({very_low_dti_credit['credit_utilization_ratio'].mean()*100:.1f}%)")
-print(f"  - Trung vị: {very_low_dti_credit['credit_utilization_ratio'].median():.3f} ({very_low_dti_credit['credit_utilization_ratio'].median()*100:.1f}%)")
-print(f"  - Min: {very_low_dti_credit['credit_utilization_ratio'].min():.3f}")
-print(f"  - Max: {very_low_dti_credit['credit_utilization_ratio'].max():.3f}")
-print(f"  - Q1: {very_low_dti_credit['credit_utilization_ratio'].quantile(0.25):.3f}")
-print(f"  - Q3: {very_low_dti_credit['credit_utilization_ratio'].quantile(0.75):.3f}")
 
 # Tính tỷ lệ khách hàng vượt hạn mức
 high_dti_over_limit = (high_dti_credit['credit_utilization_ratio'] > 1).sum()
@@ -1183,20 +1200,26 @@ very_low_dti_over_limit = (very_low_dti_credit['credit_utilization_ratio'] > 1).
 print(f"\n=== TỶ LỆ VƯỢT HẠN MỨC (>100%) ===")
 print(f"DTI Cao: {high_dti_over_limit}/{len(high_dti_credit)} ({high_dti_over_limit/len(high_dti_credit)*100:.1f}%)")
 print(f"DTI Rất thấp: {very_low_dti_over_limit}/{len(very_low_dti_credit)} ({very_low_dti_over_limit/len(very_low_dti_credit)*100:.1f}%)")
+
 ```
 </details>
 
-![i11](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/credit_score_dti%20ct.png)
-![i12](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/stat_credit_score.png)
-![i13](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/credit_limit_dti%20ct.png)
+![i13](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/credit_limit_dti_ct.png)
 ![i14](https://github.com/kiettran13/Customer_analysis/blob/main/Chart/stat_credit_limit.png)
 
-*Kết luận:*
-- Nhìn vào biểu đồ phân bố điểm tín dụng của nhóm DTI cao có thể thấy số lượng khách hàng có điểm tín dụng thấp và trung bình chiếm hơn 87% số lượng khách hàng trong khi con số này ở toàn bộ khách hàng chỉ là 72%, thêm vào đó tỷ lệ chi tiêu vượt hạn mức của nhóm này chỉ xấp xỉ 10%, điều đó cho thấy nhóm khách hàng này đang phải chịu mức nợ lớn từ đó dẫn tới hành vi chi tiêu cẩn trọng, hạn chế vay tín dụng và chỉ chi tiêu vào những khoản chi bắt buộc (Ăn uống và Xăng dầu, Phương tiện) hạn chế chi tiêu những khoản không thường xuyên như Du lịch & Giải trí để bảo vệ mức điểm tín dụng.
--> Đề xuất phát triển nhóm sản phẩm ưu đãi lãi vay (giảm lãi suất, kéo dài kỳ hạn trả nợ) và tái cấu trúc những khoản nợ đang có cho nhóm khách hàng đang chịu mức nợ cao và tạo cơ hội cải thiện điểm tín dụng của khách hàng, tạo nền tảng để kích cầu tín dụng trở lại cho chính nhóm khách hàng này trong tương lai
+*Nhận xét:*
+- Nhóm khách hàng có DTI cao đang chịu mức áp lực điểm tín dụng lớn và có tỷ lệ vượt hạn mức cao và vượt giới hạn cao, đặc biệt ở nhóm tuổi 35-54, vì vậy để phòng tránh rủi ro vỡ nợ tín dụng của khách hàng, các sản phẩm cho nhóm khách hàng này nên có điều kiện sử dụng (ví dụ chỉ áp dụng cho khách hàng có điểm tín dụng từ trung bình đến cao)
+- Nhóm khách hàng có DTI thấp trung bình có tỷ lệ dùng hạn mức cao hơn nhóm DTI thấp và có điểm tín dụng ở mức trung bình - cao chiếm tới gần 92%, có thể xem xét mở rộng hạn mức cho nhóm khách hàng này.
 
-- Ngược lại, nhóm khách hàng DTI thấp chủ yếu là người lớn tuổi (đặc biệt 65+), sở hữu điểm tín dụng từ trung bình đến cao (chỉ khoảng 10% có điểm tín dụng thấp). Dù tình trạng tài chính rất khỏe mạnh, họ vẫn duy trì tỷ lệ sử dụng hạn mức ở mức trung bình và cao (trung bình ~40%), cho thấy vẫn có nhu cầu tín dụng thường xuyên. Tuy nhiên, cơ cấu chi tiêu của nhóm này cũng thiên về các khoản thiết yếu (Ăn uống, Xăng dầu & Phương tiện), trong khi tỷ trọng dành cho Du lịch & Giải trí chỉ chiếm chưa đến 10%. Đây chính là nhóm khách hàng có dư địa tăng trưởng tín dụng lớn nhất, hoàn toàn đủ khả năng hấp thụ thêm hạn mức và các khoản vay mới.
--> Đây là nhóm đối tượng khách hàng có tiểm năng tăng trưởng tín dụng, có thể đề xuất nhóm sản phẩm ưu đãi vay tiêu dùng đặc biệt là cho vay tiêu dùng đối với các dịch vụ thuộc nhóm Du lịch & Giải trí (vay du lịch, ưu đãi bảo hiểm du lịch, thẻ đồng thương hiệu khách sạn/hàng không,...) nhằm kích hoạt nhu cầu chi tiêu cao cấp và gia tăng mạnh danh thu từ nhóm này
+
+# Kết luận dự án
+*Dựa vào những thông tin ở trên, dưới đây là kết luận cho 3 hướng phát triển sản phẩm phù hợp cho 3 nhóm khách hàng khác nhau*
+## Nhóm khách hàng thu nhập thấp, nợ nhiều – chi tiêu mạnh (chủ yếu 35–54 tuổi):
+* Đây là phân khúc có sức mua cao và đang đóng góp phần lớn doanh thu phí hiện tại. Dù gánh nợ cao, họ vẫn duy trì chi tiêu ổn định ở các ngành thiết yếu và đặc biệt là Travel (đỉnh cao ở nhóm 45–54), nhóm khách hàng này cần được kích cầu thay vì kìm hãm. Hướng phát triển trọng tâm là các sản phẩm kích thích chi tiêu an toàn: cashback cao 7–10% cho Ăn uống, Xăng dầu & Phương tiện, chương trình trả góp 0% lãi 12–24 tháng cho Du lịch cùng chính sách tăng hạn mức nhẹ. Để kiểm soát rủi ro, các ưu đãi chỉ áp dụng cho khách có điểm tín dụng từ trung bình đến cao (> 680) và không có lịch sử trả trễ trong 12 tháng gần nhất. Với nhóm này, mục tiêu không phải giảm nợ mà là giúp họ tiêu nhiều hơn, từ đó gia tăng doanh thu phí và lãi quay vòng một cách bền vững.
+## Nhóm khách hàng thu nhập thấp, nợ nhiều – chi tiêu yếu (25–34 tuổi và 55–64 tuổi):
+* Đây là nhóm đang thực sự khó khăn, điểm tín dụng thấp, chi tiêu bị cắt giảm mạnh, chỉ còn các khoản thiết yếu, và có nguy cơ cao rơi vào nợ xấu hoặc rời ngân hàng. Nếu không can thiệp kịp thời, tổ chức sẽ mất trắng một lượng lớn khách hàng trung thành. Hướng phát triển phù hợp và cấp bách nhất là cứu nợ và xây dựng lại niềm tin: Triển khai các gói dịch vụ tái cấu trúc nợ và cấp thẻ tín dụng chuyển đổi số dư 0% lãi dài hạn, cung cấp các khoản nợ mới kéo dài kỳ hạn trả nợ tối đa 36–48 tháng với lãi suất ưu đãi hoặc các khoản vay tái xây dựng tín dụng (Credit Builder Loan). Mục tiêu là đưa họ từ trạng thái “không dám tiêu” trở lại thành khách hàng chi tiêu bình thường trong thời gian tới.
+## Nhóm khách hàng thu nhập thấp, nợ ít - chi tiêu ít (chủ yếu 65+):
+* Nhóm này, sở hữu điểm tín dụng từ trung bình đến cao (chỉ khoảng 10% có điểm tín dụng thấp). Dù tình trạng tài chính rất khỏe mạnh, họ vẫn duy trì tỷ lệ sử dụng hạn mức ở mức trung bình và cao (trung bình ~40%), cho thấy vẫn có nhu cầu tín dụng thường xuyên. Tuy nhiên, cơ cấu chi tiêu của nhóm này cũng thiên về các khoản thiết yếu như Ăn uống. Đây chính là nhóm khách hàng có dư địa tăng trưởng tín dụng lớn nhất, hoàn toàn đủ khả năng hấp thụ thêm hạn mức và các khoản vay mới. Đây là nhóm đối tượng khách hàng có tiểm năng tăng trưởng tín dụng, có thể đề xuất nhóm sản phẩm ưu đãi vay tiêu dùng đặc biệt là cho vay tiêu dùng đối với các dịch vụ thuộc nhóm Du lịch & Giải trí (vay du lịch, ưu đãi bảo hiểm du lịch, thẻ đồng thương hiệu khách sạn/hàng không,...) nhằm kích hoạt nhu cầu chi tiêu cao cấp và gia tăng mạnh danh thu từ nhóm này
 
 
 
