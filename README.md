@@ -1,16 +1,17 @@
 # Phân tích hành vi khách hàng
 # Mục tiêu dự án
-Với mục tiêu tìm nhóm đối tượng khách hàng nhằm cải thiện dịch vụ tín dụng và kích thích nhu cầu tín dụng
+Mục tiêu của dự án là phân loại và xác định nhóm khách hàng phù hợp để thiết kế, đề xuất các sản phẩm – dịch vụ tín dụng tương ứng, giúp hoàn thiện chất lượng dịch vụ tín dụng và khuyến khích nhu cầu vay vốn tại tổ chức tài chính mục tiêu.
 # Tổng quan dự án 
-Dự án tập trung phân tích hành vi giao dịch của khách hàng dựa trên đặc điểm nhân khẩu học và mô hình chi tiêu thực tế, đồng thời đánh giá động lực sử dụng Credit Card theo độ tuổi, thu nhập và điểm tín dụng,... Từ đó nhận diện tình trạng tín dụng của những nhóm khách hàng khác nhau, hướng đến xác định sản phẩm phù hợp với từng nhóm khách hàng.
-Bộ dữ liệu được sử dụng được lấy từ [Kaggle](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets). Đây là bộ dữ liệu tài chính lớn gồm 5 file chính:
+Dự án tập trung khai thác và phân tích hành vi giao dịch của khách hàng thông qua các đặc điểm nhân khẩu học kết hợp với mô hình chi tiêu thực tế. Đồng thời, phân tích xem xét các yếu tố ảnh hưởng đến việc sử dụng thẻ tín dụng (Credit Card) như độ tuổi, mức thu nhập, điểm tín dụng,… Qua đó, dự án hướng đến việc đánh giá sức khỏe tài chính, tình trạng tín dụng và thói quen chi tiêu của từng nhóm khách hàng, từ đó phân nhóm và đề xuất các sản phẩm tín dụng phù hợp với từng phân khúc.
+Bộ dữ liệu sử dụng được trích xuất từ [Kaggle](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets). Đây là tập dữ liệu tài chính quy mô lớn của một tổ chức tài chính tại Mỹ gồm 5 file chính:
 - Transaction Data (transactions_data.csv)
 - Card Information (cards_data.csv)
 - User Data (users_data.csv)
 - Merchant Category Codes (mcc_codes.json)
 - Fraud Labels (train_fraud_labels.json)
 
-Bộ dữ liệu được chia sẻ ở trong folder [data](https://github.com/kiettran13/Customer_analysis/tree/964c99f7904bc7fa2fb1dace7d3f2466fff7a94f/data). Riêng dữ liệu giao dịch (Transaction Data) và dữ liệu về dấu hiệu lừa đảo (Fraud Labels) có kích thước lớn nên sẽ được chia sẻ qua link.
+Bộ dữ liệu được chia sẻ ở trong folder [data](https://github.com/kiettran13/Customer_analysis/tree/964c99f7904bc7fa2fb1dace7d3f2466fff7a94f/data). Riêng dữ liệu giao dịch (Transaction Data) và dữ liệu về dấu hiệu lừa đảo (Fraud Labels) có kích thước lớn nên sẽ được chia sẻ thông qua đường link riêng. 
+Mô tả chi tiết các biến trong bộ dữ liệu được tổng hợp trong file [variables](https://github.com/kiettran13/Customer_analysis/blob/main/variable)
 
 # Chi tiết dự án:
 # Tiền xử lý dữ liệu:
