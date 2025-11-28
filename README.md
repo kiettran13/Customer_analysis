@@ -15,7 +15,10 @@ Bộ dữ liệu được chia sẻ ở trong folder [data](https://github.com/k
 # Chi tiết dự án:
 # Tiền xử lý dữ liệu:
 * Nhập dữ liệu và thư viện cần thiết:
-  
+
+<details>
+<summary><b>Xem toàn bộ code </b></summary>
+
 ```
 import pandas as pd
 import json 
@@ -36,8 +39,12 @@ frauds_df = pd.json_normalize(frauds_data).T.reset_index()
 frauds_df.columns = ['index', 'target']
 frauds_df['index'] = frauds_df['index'].str.replace('target.', '', regex=False)
 ```
+</details>
 
 * Xoá các cột không dùng cho mục đích phân tích
+<details>
+<summary><b>Xem toàn bộ code </b></summary>
+  
 ```
 transactions_data = transactions_data.drop(columns=[
     'merchant_city',
@@ -70,16 +77,33 @@ print(transactions_data.head(5))
 print(users_data.head(5))
 print(cards_data.head(5))
 ```
-* Kiểm tra NA 
+</details>
+
+* Kiểm tra NA và trùng lặp
+<details>
+<summary><b>Xem toàn bộ code </b></summary>
+  
 ```
 print(transactions_data.isna().sum())
 print(users_data.isna().sum())
 print(cards_data.isna().sum())
 print(mcc_codes.isna().sum())
 print(frauds_df.isna().sum())
+
+print(transactions_data.duplicated().sum())
+print(users_data.duplicated().sum())
+print(cards_data.duplicated().sum())
+print(mcc_codes.duplicated().sum())
+print(frauds_df.duplicated().sum())
 ```
-*Nhận xét:* Tất cả các trường dữ liệu được sử dụng đều không có NA
+</details>
+
+*Nhận xét:* Tất cả các trường dữ liệu được sử dụng đều không có NA và hiện tượng trùng lặp
 * Xoá bỏ các giao dịch gian lận thông qua việc đối chiếu mã giao dịch với mã giao dịch được đánh dấu là lửa đảo, đảm bảo dữ liệu có ý nghĩa thống kê
+
+<details>
+<summary><b>Xem toàn bộ code </b></summary>
+  
 ```
 frauds_df['index'] = frauds_df['index'].astype(str)
 transactions_data['id'] = transactions_data['id'].astype(str)
@@ -95,6 +119,8 @@ else:
     clean_transactions = transactions_data.copy()
     print("Không có giao dịch lừa đảo")
 ```
+</details>
+
 * Chuẩn hoá kiểu dữ liệu cho các biến mang giá trị ngày tháng và tiền tệ (giá trị giao dịch, thu nhập hàng năm, tổng nợ, hạn mức tín dụng) thành dạng số
 
 <details>
@@ -205,6 +231,9 @@ print(clean_transactions['category_group'].value_counts())
 
 * Sau đó xử lý các biến dữ liệu với mục đích tạo một bảng kết nối các biến cần thiết để EDA ở các bộ dữ liệu khác nhau thông qua các biến chung (client_id, id,...)
 * Thêm biến 'year' giảm số quan sát trong bảng transactions, 'spend' lọc ra các giao dịch trừ tiền, có ý nghĩa với việc phân tích thói quen tiêu dùng.
+<details>
+<summary><b>Xem toàn bộ code </b></summary>
+  
 ```
 # Tạo cột năm quan sát thay đổi
 clean_transactions['year'] = clean_transactions['date'].dt.year
@@ -219,6 +248,8 @@ clean_transactions.loc[clean_transactions['is_spend'], 'spend'] = clean_transact
 # Kiểm tra lại độ dài dữ liệu chi tiêu 
 len(clean_transactions['spend'])
 ```
+</details>
+
 * Nhóm các dữ liệu theo từng khách hàng, lần lượt trong vòng 9 năm. Từ đó chỉ ra mỗi khách hàng chi bao nhiêu tiền, nợ bao nhiêu, hạn mức tín dụng, tổng giao dịch trong mỗi năm, họ chi nhiều tiền nhất từng năm cho ngành hàng nào và chủ yếu những giao dịch trong năm đó dùng loại thẻ nào.
 
 <details>
@@ -297,6 +328,10 @@ print(client_total_debt.head())
 </details>
 
 * Gộp thành 1 bảng
+
+<details>
+<summary><b>Xem toàn bộ code </b></summary>
+  
 ```
 # Kết hợp tất cả thông tin thành 1 bảng duy nhất
 client_df = (
@@ -314,7 +349,12 @@ client_df = (
 )
 print(client_df.head())
 ```
+</details>
+
 * Chọn từ bảng ra các cột cần phân tích, lưu vào một bảng mới (final_client_df)
+<details>
+<summary><b>Xem toàn bộ code </b></summary>
+  
 ```
 # Phân tuổi khách hàng thành các nhóm
 age_bins = [0, 24, 34, 44, 54, 64, 190]
@@ -352,6 +392,8 @@ final_client_df = client_df[[
 ]]
 print(final_client_df.head())
 ```
+</details>
+
 * Ở phần này, tiếp tục gộp các cột có số lượng biến lớn như tuổi, thu nhập, chi tiêu, làm gọn bộ dữ liệu nhưng vẫn giữ các cột gốc trong bảng client_df, chỉ chọn lấy những biến đã được gộp theo nhóm vào final_client_df để thuận tiện cho EDA.  Các biến sau đó nếu được tạo thêm, hoặc các bảng dữ liệu con sẽ được tạo từ bảng này.
 * Kiểm tra loại dữ liệu trong các cột và phân loại vào 2 nhóm 'Không đổi qua các năm' và 'Thay đổi qua các năm' để tạo 2 bảng dữ liệu phụ của final_client_df nhằm tránh trùng lặp biến khi vẽ các biểu đồ quan hệ
 
